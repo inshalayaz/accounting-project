@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import sequelize from './config/config.mjs'
+import accountRoutes from './routes/accounts.mjs'
 
 const app = express()
 
@@ -16,6 +17,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
+
+app.use('/accounts', accountRoutes)
 
 
 sequelize.sync().then(() => {
