@@ -1,11 +1,11 @@
 import { AccountModel } from "../models/models.mjs"
 
 export const createAccount = async (req, res) => {
-    const {account_name, account_type} = req.body
+    const {accountName, accountType} = req.body
     try {
         await AccountModel.create({
-            account_name,
-            account_type
+            account_name: accountName,
+            account_type: accountType
         })
         res.status(201).json({ message: 'Account Created Successfully' });
     } catch (error) {

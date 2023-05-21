@@ -27,8 +27,10 @@ export const AccountModel = sequelize.define('Accounts', {
 
 export const JournalEntryModel = sequelize.define('JournalEntries', {
   entry_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     primaryKey: true,
+    allowNull: false,
+    defaultValue: DataTypes.UUIDV4
   },
   transaction_date: {
     type: DataTypes.DATE,
