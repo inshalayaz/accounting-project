@@ -1,4 +1,4 @@
-import { AccountModel } from "../models/Accounts.mjs"
+import { AccountModel } from "../models/Models.mjs";
 
 export const createAccount = async (req, res) => {
     const {accountName, accountType} = req.body
