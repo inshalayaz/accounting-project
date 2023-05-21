@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import sequelize from './config/config.mjs'
 import accountRoutes from './routes/accounts.mjs'
 import journalEntryRoutes from './routes/journalEntries.mjs'
+import trialBalanceRoutes from './routes/trialBalance.mjs'
 
 const app = express()
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 
 app.use('/accounts', accountRoutes)
 app.use('/journalEntry', journalEntryRoutes)
+app.use('/trialBalance', trialBalanceRoutes)
 
 
 sequelize.sync().then(() => {
