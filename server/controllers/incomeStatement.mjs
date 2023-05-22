@@ -28,8 +28,6 @@ export const generateIncomeStatement = async (req, res) => {
         const { account_type } = Account;
         Account.dataValues.amount = amount
 
-        console.log(Account)
-
         if (account_type === 'revenue') {
           entities.revenue.push(Account)
           // Revenue account
