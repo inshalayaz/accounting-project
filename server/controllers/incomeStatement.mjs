@@ -15,6 +15,11 @@ export const generateIncomeStatement = async (req, res) => {
     let totalExpenses = 0;
     let netIncome = 0;
 
+    let entities = {
+      revenue: [],
+      expense: []
+    }
+
     // Calculate the revenue and expense totals by iterating through the journal entries
     for (const entry of journalEntries) {
       const { Account, amount, entry_type } = entry;
@@ -23,9 +28,11 @@ export const generateIncomeStatement = async (req, res) => {
         const { account_type } = Account;
 
         if (account_type === 'revenue') {
+          entities.revenue.push(Account)
           // Revenue account
           totalRevenue += +amount;
         } else if (account_type === 'expense') {
+          entities.expense.push(Account)
           // Expense account
           totalExpenses += +amount;
         }
@@ -60,9 +67,10 @@ export const generateIncomeStatement = async (req, res) => {
 
     // Prepare the income statement data
     const incomeStatement = {
+      entities,
       revenue: totalRevenue,
       expenses: totalExpenses,
-      netIncome,
+      netIncome
     };
 
     res.status(200).json(incomeStatement);
