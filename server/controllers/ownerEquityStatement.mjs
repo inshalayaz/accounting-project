@@ -13,6 +13,10 @@ const calculateOwnerEquityStatement = async () => {
     // Initialize variables to store the net income and owner's equity total
     let netIncome = 0;
     let ownerEquity = 0;
+    let ownerTransactions = {
+      withdrawals: [],
+      deposits: []
+    }
 
     // Calculate the net income and owner's equity by iterating through the journal entries
     for (const entry of journalEntries) {
@@ -23,7 +27,7 @@ const calculateOwnerEquityStatement = async () => {
       if (Account) {
         let { account_type } = Account;
 
-        console.log({account_type})
+        // Account.dataValues.amount = amount
 
         account_type = account_type.toLowerCase()
 
@@ -45,8 +49,10 @@ const calculateOwnerEquityStatement = async () => {
             console.log(entry)
           // Owner's capital or owner's drawings account
           if (transaction_type === 'debit') {
+            ownerTransactions.withdrawals.push(entry)
             ownerEquity -= +amount;
           } else if (transaction_type === 'credit') {
+            ownerTransactions.deposits.push(entry)
             ownerEquity += +amount;
           }
         }
@@ -58,6 +64,7 @@ const calculateOwnerEquityStatement = async () => {
 
     // Prepare and return the owner's equity statement data
     const ownerEquityStatement = {
+      ownerTransactions,
       netIncome,
       ownerEquity,
     };
