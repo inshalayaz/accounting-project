@@ -1,6 +1,6 @@
 import { JournalEntryModel, AccountModel } from "../models/models.mjs";
 
-const calculateOwnerEquityStatement = async () => {
+export const calculateOwnerEquityStatement = async () => {
   try {
     // Retrieve all journal entries from the database, including associated account information
     const journalEntries = await JournalEntryModel.findAll({
@@ -46,7 +46,6 @@ const calculateOwnerEquityStatement = async () => {
             netIncome += +amount;
           }
         } else if (account_type === 'owner_capital' || account_type === 'owner_drawings') {
-            console.log(entry)
           // Owner's capital or owner's drawings account
           if (transaction_type === 'debit') {
             ownerTransactions.withdrawals.push(entry)
