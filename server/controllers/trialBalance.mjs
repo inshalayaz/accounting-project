@@ -30,8 +30,15 @@ export const getTrialBalance = async (req, res) => {
       }
     }
 
+    let trialBalance = {}
+
+    let transactions = {
+      credit: 0,
+      debit: 0
+    };
+
     // Prepare the trial balance report data with both account name and ID
-    const trialBalance = await Promise.all(
+    const trialBalanceEntries = await Promise.all(
       Object.entries(accountBalances).map(async ([accountId, balance]) => {
         const account = await AccountModel.findByPk(accountId);
         console.log( account)
@@ -39,17 +46,21 @@ export const getTrialBalance = async (req, res) => {
         const account_type = account.account_type.toLowerCase();
         let isDebit = false;
 
-        if(account_type === 'asset' || account_type === 'expense'){
+        if(account_type === 'asset' || account_type === 'expense' || account_type === 'owner_drawings'){
+            transactions.debit += +balance
             isDebit = true
-        }
-        else {
+          }
+          else {
             balance = balance * -1
+            transactions.credit += +balance
         }
 
         return { account_id: accountId, account_name, balance, account_type, is_debit: isDebit};
       })
     );
 
+      trialBalance.trialBalanceEntries = trialBalanceEntries
+      trialBalance.transactions = transactions
     res.status(200).json(trialBalance);
   } catch (error) {
     console.error("Error generating trial balance report:", error);

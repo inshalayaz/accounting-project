@@ -26,13 +26,14 @@ export const generateIncomeStatement = async (req, res) => {
 
       if (Account) {
         const { account_type } = Account;
+        Account.dataValues.amount = amount
 
         if (account_type === 'revenue') {
-          entities.revenue.push(entry)
+          entities.revenue.push(Account)
           // Revenue account
           totalRevenue += +amount;
         } else if (account_type === 'expense') {
-          entities.expense.push(entry)
+          entities.expense.push(Account)
           // Expense account
           totalExpenses += +amount;
         }

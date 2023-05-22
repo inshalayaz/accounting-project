@@ -25,6 +25,7 @@ const calculateBalanceSheet = async () => {
         for (const entry of journalEntries) {
             let { Account, amount, transaction_type } = entry;
 
+            Account.dataValues.amount = amount
             transaction_type = transaction_type.toLowerCase();
 
             if (Account) {
@@ -33,7 +34,7 @@ const calculateBalanceSheet = async () => {
                 account_type = account_type.toLowerCase();
 
                 if (account_type === 'asset') {
-                    transactions.assets.push(entry)
+                    transactions.assets.push(Account)
                     // Asset account
                     if (transaction_type === 'debit') {
                         totalAssets += +amount;
@@ -41,7 +42,7 @@ const calculateBalanceSheet = async () => {
                         totalAssets -= +amount;
                     }
                 } else if (account_type === 'liability') {
-                    transactions.equity.push(entry)
+                    transactions.liabilities.push(Account)
                     // Liability account
                     if (transaction_type === 'credit') {
                         totalLiabilities += +amount;
@@ -53,7 +54,11 @@ const calculateBalanceSheet = async () => {
             }
         }
         const ownerEquityStatement = await calculateOwnerEquityStatement();
-        totalEquity = ownerEquityStatement.ownerEquity
+        totalEquity = ownerEquityStatement.newOwnerEquity
+
+        console.log(+totalEquity)
+
+        const isBalanced = totalAssets === +totalLiabilities + +totalEquity ? true : false
 
         // Prepare and return the balance sheet data
         const balanceSheet = {
@@ -61,6 +66,7 @@ const calculateBalanceSheet = async () => {
             assets: totalAssets,
             liabilities: totalLiabilities,
             equity: totalEquity,
+            isBalanced
         };
 
         return balanceSheet;
