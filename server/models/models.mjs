@@ -93,10 +93,49 @@ export const JournalEntryModel = sequelize.define('JournalEntries', {
     allowNull: false,
   },
 });
+
+
+export const PastJournalEntryModel = sequelize.define('PastJournalEntries', {
+  entry_id: {
+    type: DataTypes.UUID,
+    primaryKey: true,
+    allowNull: false,
+    defaultValue: DataTypes.UUIDV4
+  },
+  transaction_date: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  transaction_type: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  account_id: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'Accounts',
+      key: 'account_id',
+    },
+  },
+  amount: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+  entry_type: {
+    type: DataTypes.STRING(10),
+    allowNull: false,
+  },
+});
 // Define the relationship between Account and JournalEntry
 
 AccountModel.hasMany(JournalEntryModel, { foreignKey: 'account_id' });
 JournalEntryModel.belongsTo(AccountModel, { foreignKey: 'account_id' });
+PastJournalEntryModel.belongsTo(AccountModel, { foreignKey: 'account_id' });
 ClosedAccountModel.belongsTo(AccountModel, { foreignKey: 'account_id' });
 
 (async () => {

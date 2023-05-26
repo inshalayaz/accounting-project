@@ -8,6 +8,7 @@ import trialBalanceRoutes from './routes/trialBalance.mjs'
 import incomeStatementRoutes from './routes/incomeStatement.mjs'
 import ownerEquityStatementRoutes from './routes/ownerEquityStatement.mjs'
 import balanceSheetRoutes from './routes/balanceSheet.mjs'
+import closingRoutes from './routes/closing.mjs'
 
 const app = express()
 app.use(express.json());
@@ -30,6 +31,7 @@ app.use('/trialBalance', trialBalanceRoutes)
 app.use('/generateIncomeStatement', incomeStatementRoutes)
 app.use('/generateOwnerEquityStatement', ownerEquityStatementRoutes)
 app.use('/generateBalanceSheet', balanceSheetRoutes)
+app.use('/closing', closingRoutes)
 
 
 sequelize.sync().then(() => {
