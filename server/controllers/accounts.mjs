@@ -16,6 +16,11 @@ export const createAccount = async (req, res) => {
 export const getAccounts = async (req, res) => {
     try {
         const accounts = await AccountModel.findAll()
+        accounts.sort((prevAccount, nextAccount) => {
+            if (prevAccount.account_type < nextAccount.account_type)
+                  return -1;
+            return 1;
+        });
     
         res.status(200).json(accounts)
     } catch (error) {
