@@ -20,11 +20,11 @@ export const calculateOwnerEquityStatement = async () => {
 
     // Calculate the net income and owner's equity by iterating through the journal entries
     for (const entry of journalEntries) {
-      let { Account, amount, transaction_type } = entry;
+      let { Account, amount, transaction_type, entry_type } = entry;
 
         transaction_type = transaction_type.toLowerCase()
 
-      if (Account) {
+      if (Account && entry_type !== 'closing') {
         let { account_type } = Account;
 
         Account.dataValues.amount = amount

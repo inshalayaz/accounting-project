@@ -15,9 +15,9 @@ export const getTrialBalance = async (req, res) => {
 
     // Calculate the account balances by iterating through the journal entries
     for (const entry of journalEntries) {
-      const { Account, amount, credit, debit } = entry;
+      const { Account, amount, entry_type } = entry;
 
-      if (Account) {
+      if (Account && entry_type !== 'closing') {
         const { account_id } = Account;
         const transactionType = entry.transaction_type.toLowerCase();
 
@@ -41,7 +41,7 @@ export const getTrialBalance = async (req, res) => {
     const trialBalanceEntries = await Promise.all(
       Object.entries(accountBalances).map(async ([accountId, balance]) => {
         const account = await AccountModel.findByPk(accountId);
-        console.log( account)
+     
         const account_name = account ? account.account_name : 'Unknown';
         const account_type = account.account_type.toLowerCase();
         let isDebit = false;

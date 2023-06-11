@@ -23,12 +23,12 @@ const calculateBalanceSheet = async () => {
 
         // Calculate the asset, liability, and equity totals by iterating through the journal entries
         for (const entry of journalEntries) {
-            let { Account, amount, transaction_type } = entry;
+            let { Account, amount, transaction_type, entry_type} = entry;
 
             Account.dataValues.amount = amount
             transaction_type = transaction_type.toLowerCase();
 
-            if (Account) {
+            if (Account && entry_type !== 'closing') {
                 let { account_type } = Account;
 
                 account_type = account_type.toLowerCase();

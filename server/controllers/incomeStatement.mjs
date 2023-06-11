@@ -24,7 +24,7 @@ export const generateIncomeStatement = async (req, res) => {
     for (const entry of journalEntries) {
       const { Account, amount, entry_type } = entry;
 
-      if (Account) {
+      if (Account && entry_type !== 'closing') {
         const { account_type } = Account;
         Account.dataValues.amount = amount
 
