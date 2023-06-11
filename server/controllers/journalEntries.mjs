@@ -4,17 +4,19 @@ import { JournalEntryModel, PastJournalEntryModel, AccountModel } from "../model
 export const createJournalEntry = async (req, res) => {
   try {
     const { credit, debit } = req.body;
+    const description = req.body.description;
 
     const entryObj = {
       credit,
       debit,
     };
 
+    let transaction_date = Date.now();
     for (const key in entryObj) {
       const transactions = entryObj[key];
 
       for (const transactionType of transactions) {
-        const { transaction_date, description, transaction_type, account_id, amount, entry_type } = transactionType;
+        const { transaction_type, account_id, amount, entry_type } = transactionType;
 
         try {
           await JournalEntryModel.create({
@@ -62,7 +64,9 @@ export const getAllJournalEntries = async (req, res) => {
 
     const allEntries = [...pastEntries, ...currentEntries];
 
-    res.status(200).json({ entries: allEntries });
+    let formatedEntriesList = formatJournalEntries(allEntries);
+
+    res.status(200).json(formatedEntriesList);
   } catch (error) {
     console.error("Error retrieving journal entries:", error);
     res.status(500).json({ error: "Failed to retrieve journal entries" });
@@ -79,11 +83,43 @@ export const getCurrentJournalEntries = async (req, res) => {
       },
     });
 
-    const allEntries = [...currentEntries];
+    const formatedEntriesList = formatJournalEntries(currentEntries);
+    
+    res.status(200).json(formatedEntriesList);
 
-    res.status(200).json({ entries: allEntries });
+
   } catch (error) {
     console.error("Error retrieving journal entries:", error);
     res.status(500).json({ error: "Failed to retrieve journal entries" });
   }
 };
+
+
+function formatJournalEntries(entryList) {
+  const formatedEntriesList = [];
+  for (const entry of entryList) {
+    const existingEntry = formatedEntriesList.find(obj => new Date(obj.date).getTime() === new Date(entry.transaction_date).getTime());
+
+    if (existingEntry) {
+      if (entry.transaction_type === 'Debit') {
+        existingEntry.debit = entry;
+      } else {
+        existingEntry.credit = entry;
+      }
+    } else {
+      const formatedEntries = {
+        date: new Date(entry.transaction_date),
+      };
+
+      if (entry.transaction_type === 'Debit') {
+        formatedEntries.debit = entry;
+      } else {
+        formatedEntries.credit = entry;
+      }
+
+      formatedEntriesList.push(formatedEntries);
+    }
+  }
+
+  return formatedEntriesList;
+}
