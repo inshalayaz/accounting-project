@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, ListItemText, MenuItem, MenuList, Paper, Typography } from '@mui/material'
+import { Card, CardContent, ListItemText, MenuItem, MenuList, Paper, Typography } from '@mui/material'
 import {
     Link
 } from "react-router-dom";
@@ -12,10 +12,6 @@ const Sidebar = () => {
             <Paper sx={{ width: 320 }}>
 
                 <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                        // image="/static/images/cards/contemplative-reptile.jpg"
-                        title="green iguana"
-                    />
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             Financial Accounting
@@ -24,15 +20,15 @@ const Sidebar = () => {
                 </Card>
 
                 <MenuList>
-                        {
-                            menuItems.map(({ id, name, route }) => (
-                                <Link to={route} key={id} className='custom-link'>
-                                    <MenuItem>
-                                        <ListItemText inset>{name}</ListItemText>
-                                    </MenuItem>
-                                </Link>
-                            ))
-                        }
+                    {
+                        menuItems.map(({ id, name, route }) => (
+                            <Link to={route} key={id} className='custom-link'>
+                                <MenuItem>
+                                    <ListItemText inset>{name}</ListItemText>
+                                </MenuItem>
+                            </Link>
+                        ))
+                    }
                 </MenuList>
             </Paper>
         </div>

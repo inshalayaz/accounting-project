@@ -20,7 +20,7 @@ export default function CreateAccount() {
   const createAccount = async () => {
 
     try {
-      const response = await axios.post(`${BASE_URL}${ACCOUNTS}`, { accountName, accountType }, {
+      const response = await axios.post(`${BASE_URL}/${ACCOUNTS}`, { accountName, accountType }, {
         headers: {
           'Content-Type': 'application/json'
         }
