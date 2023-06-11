@@ -11,6 +11,7 @@ import {
 import Dashboard from './pages/Dashboard/Dashboard';
 import ViewAccounts from './pages/ViewAccount/ViewAccounts';
 import CreateAccount from './pages/createAccount/CreateAccount';
+import JournalEntry from './pages/JournalEntry/JournalEntry';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
             <Routes>
               <Route path='/view-accounts' element={<ViewAccounts />} />
               <Route path='/create-account' element={<CreateAccount />} />
+              <Route path='/journal-entries' element={<JournalEntry />} />
               <Route path='/' element={<Dashboard />} />
             </Routes>
 
