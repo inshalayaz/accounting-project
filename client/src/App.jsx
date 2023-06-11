@@ -8,9 +8,9 @@ import {
   Routes,
 } from "react-router-dom";
 
-import ViewAccounts from './pages/viewAccount/ViewAccounts'
-import CreateAccount from './pages/createAccount/CreateAccount';
 import Dashboard from './pages/Dashboard/Dashboard';
+import ViewAccounts from './pages/ViewAccount/ViewAccounts';
+import CreateAccount from './pages/createAccount/CreateAccount';
 
 function App() {
 
@@ -25,8 +25,8 @@ function App() {
           <Grid xs={9}>
 
             <Routes>
-              <Route path='/create-account' element={<CreateAccount />} />
               <Route path='/view-accounts' element={<ViewAccounts />} />
+              <Route path='/create-account' element={<CreateAccount />} />
               <Route path='/' element={<Dashboard />} />
             </Routes>
 

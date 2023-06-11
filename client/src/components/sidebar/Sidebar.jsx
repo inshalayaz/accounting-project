@@ -3,7 +3,7 @@ import {
     Link
 } from "react-router-dom";
 
-import { menuItems } from '../../constants/menuItems'
+import menuItems from '../../constants/menuItems'
 import './index.css'
 
 const Sidebar = () => {
@@ -13,7 +13,7 @@ const Sidebar = () => {
 
                 <Card sx={{ maxWidth: 345 }}>
                     <CardMedia
-                        image="/static/images/cards/contemplative-reptile.jpg"
+                        // image="/static/images/cards/contemplative-reptile.jpg"
                         title="green iguana"
                     />
                     <CardContent>

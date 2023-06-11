@@ -1,7 +1,6 @@
-const ViewAccounts = () => {
+export default function ViewAccounts () {
   return (
-    <div>ViewAccounts</div>
+    <div>ViewAccount</div>
   )
 }
 
-export default ViewAccounts

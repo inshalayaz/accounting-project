@@ -1,4 +1,4 @@
-export const menuItems = [
+const menuItems = [
     {
         id: 0,
         name: "Create Account",
@@ -12,3 +12,5 @@ export const menuItems = [
     },
 
 ]
+
+export default menuItems
