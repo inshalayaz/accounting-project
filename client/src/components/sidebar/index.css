@@ -1,0 +1,13 @@
+.sidebar {
+    overflow: hidden;
+    min-width: 256px;
+    max-width: 256px;
+    position: fixed;
+    border-right: 1px solid black;
+    height: 100vh;
+  }
+
+  .custom-link {
+    text-decoration: none;
+    color: #000;
+  }
