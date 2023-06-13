@@ -52,10 +52,14 @@ const TrialBalanceTable = ({ trialBalanceData }) => {
                             </TableCell>
 
                             <TableCell component="th" scope="row">
-                                {row.is_debit ? row.balance : '-'}
+                                <Typography color={row.balance > 0 ? 'green' : 'red'}>
+                                    {row.is_debit ? (row.balance > 0 ? row.balance : `(${+row.balance * -1})`) : '-'}
+                                </Typography>
                             </TableCell>
                             <TableCell component="th" scope="row">
-                                {!row.is_debit ? row.balance : '-'}
+                                <Typography color={row.balance > 0 ? 'green' : 'red'}>
+                                    {!row.is_debit ? (row.balance > 0 ? row.balance : `(${+row.balance * -1})`) : '-'}
+                                </Typography>
                             </TableCell>
 
                             <TableCell component="th" scope="row">

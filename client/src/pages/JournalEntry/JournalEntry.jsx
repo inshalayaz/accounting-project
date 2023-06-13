@@ -6,7 +6,7 @@ import { BASE_URL, GET_ACCOUNTS, GET_JOURNAL_ENTRY, JOURNAL_ENTRY } from '../../
 import { Backdrop, Box, Button, Fade, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { Modal } from '@mui/base';
 
-import { style } from './style';
+import { style } from '../style';
 import { HEADERS } from '../../constants/headers';
 import { ToastContainer } from 'react-toastify';
 import { showSuccessToast } from '../../utils/utils';

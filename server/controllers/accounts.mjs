@@ -32,7 +32,7 @@ export const getTAccounts = async (req, res) => {
     try {
 
         const {accountId} = req.body
-
+        
         const resultObj = {}
 
         const journalEntries = await JournalEntryModel.findAll({
@@ -45,23 +45,23 @@ export const getTAccounts = async (req, res) => {
             }
           });
 
-          let result = {
-            debit: [],
-            credit: []
-          }
+        //   let result = {
+        //     debit: [],
+        //     credit: []
+        //   }
           
-          for (const entry of journalEntries) {
-            const { Account, amount, entry_type, transaction_type } = entry;
-            console.log(Account)
-            if(transaction_type.toLowerCase() === 'debit'){
-                result.debit.push(entry)
-            } else {
-                result.credit.push(entry)
-            }
+        //   for (const entry of journalEntries) {
+        //     const { Account, amount, entry_type, transaction_type } = entry;
+        //     console.log(Account)
+        //     if(transaction_type.toLowerCase() === 'debit'){
+        //         result.debit.push(entry)
+        //     } else {
+        //         result.credit.push(entry)
+        //     }
             
-          }
+        //   }
 
-          res.status(200).json(result)
+          res.status(200).json(journalEntries)
 
     } catch (error) {
         res.status(500).json(error.message)

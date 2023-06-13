@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 
 const EntryTable = ({ data }) => {
 
 
-  function createData (
+  function createData(
     date,
     debitAccount,
     debitAmount,
@@ -26,12 +26,12 @@ const EntryTable = ({ data }) => {
 
   const generateRows = () => {
     let rows = data.map((i) => {
-        return (
-          createData(i.date, i.debit.Account.account_name, i.debit.amount, i.credit.Account.account_name, i.credit.amount, i.credit.description, i.credit.entry_type )
-        )
+      return (
+        createData(i.date, i.debit.Account.account_name, i.debit.amount, i.credit.Account.account_name, i.credit.amount, i.credit.description, i.credit.entry_type)
+      )
     })
     return rows
-}
+  }
 
 
   return (
@@ -43,9 +43,10 @@ const EntryTable = ({ data }) => {
             <TableCell align="center" colSpan={2}>
               Debit
             </TableCell>
-            <TableCell align="center" colSpan={3}>
+            <TableCell align="center" colSpan={2}>
               Credit
             </TableCell>
+            <TableCell colSpan={4}></TableCell>
           </TableRow>
           <TableRow hover>
             <TableCell>Date</TableCell>
@@ -71,13 +72,21 @@ const EntryTable = ({ data }) => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.date.slice(0,10)}
+                {row.date.slice(0, 10)}
               </TableCell>
               <TableCell>{row.debitAccount.toUpperCase()}</TableCell>
-              <TableCell>{row.debitAmount}</TableCell>
+              <TableCell component="th" scope="row">
+                <Typography color={row.debitAmount > 0 ? 'green' : 'red'}>
+                  {row.debitAmount > 0 ? row.debitAmount : `(${+row.debitAmount * -1})`}
+                </Typography>
+              </TableCell>
               <TableCell></TableCell>
               <TableCell>{row.creditAccount.toUpperCase()}</TableCell>
-              <TableCell>{row.creditAmount}</TableCell>
+              <TableCell component="th" scope="row">
+                <Typography color={row.creditAmount > 0 ? 'green' : 'red'}>
+                  {row.creditAmount > 0 ? row.creditAmount : `(${+row.creditAmount * -1})`}
+                </Typography>
+              </TableCell>
               <TableCell></TableCell>
               <TableCell align='left'>{row.entryType}</TableCell>
               <TableCell align='left'>{row.description}</TableCell>
