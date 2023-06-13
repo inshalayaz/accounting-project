@@ -1,4 +1,5 @@
-import { AccountModel, JournalEntryModel } from "../models/models.mjs"
+import { Sequelize } from "sequelize";
+import { AccountModel, JournalEntryModel, PastJournalEntryModel } from "../models/models.mjs"
 
 export const createAccount = async (req, res) => {
     const {accountName, accountType} = req.body
@@ -35,31 +36,32 @@ export const getTAccounts = async (req, res) => {
         
         const resultObj = {}
 
-        const journalEntries = await JournalEntryModel.findAll({
+        let journalEntries = await JournalEntryModel.findAll({
             include: {
               model: AccountModel,
-              required: false, // Perform a left join
+              required: false,
             },
             where: {
                 account_id: accountId
             }
           });
 
-        //   let result = {
-        //     debit: [],
-        //     credit: []
-        //   }
-          
-        //   for (const entry of journalEntries) {
-        //     const { Account, amount, entry_type, transaction_type } = entry;
-        //     console.log(Account)
-        //     if(transaction_type.toLowerCase() === 'debit'){
-        //         result.debit.push(entry)
-        //     } else {
-        //         result.credit.push(entry)
-        //     }
-            
-        //   }
+          const pastEntries = await PastJournalEntryModel.findAll({
+            include: {
+                model: AccountModel,
+                required: false,
+                where: {
+                    account_type: {
+                        [Sequelize.Op.notIn]: ['revenue', 'expense']
+                    }
+                }
+              },
+              where: {
+                account_id: accountId
+            }
+          })
+
+          journalEntries = [...journalEntries, ...pastEntries]
 
           res.status(200).json(journalEntries)
 
