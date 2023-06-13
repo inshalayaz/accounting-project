@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 
 
 const TrialBalanceTable = ({ trialBalanceData }) => {
@@ -52,7 +52,7 @@ const TrialBalanceTable = ({ trialBalanceData }) => {
                             </TableCell>
 
                             <TableCell component="th" scope="row">
-                                { row.is_debit ? row.balance : '-'}
+                                {row.is_debit ? row.balance : '-'}
                             </TableCell>
                             <TableCell component="th" scope="row">
                                 {!row.is_debit ? row.balance : '-'}
@@ -64,8 +64,16 @@ const TrialBalanceTable = ({ trialBalanceData }) => {
                         </TableRow>
                     ))}
                     <TableRow>
-                        <TableCell align="center" colSpan={2}><b>Debit: {trialBalanceData?.transactions.debit}</b></TableCell>
-                        <TableCell align="center" colSpan={2}><b>Credit: {trialBalanceData?.transactions.credit}</b></TableCell>
+                        <TableCell align="center" colSpan={2}>
+                            <Typography color={trialBalanceData?.transactions.debit > 0 ? 'green' : 'red'}>
+                                <b>Debit: {trialBalanceData?.transactions.debit > 0 ? trialBalanceData?.transactions.debit : `(${trialBalanceData?.transactions.debit})`}</b>
+                            </Typography>
+                        </TableCell>
+                        <TableCell align="center" colSpan={2}>
+                            <Typography color={trialBalanceData?.transactions.credit > 0 ? 'green' : 'red'}>
+                                <b>Credit: {trialBalanceData?.transactions.credit > 0 ? trialBalanceData?.transactions.credit : `(${trialBalanceData?.transactions.credit})`}</b>
+                            </Typography>
+                        </TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
