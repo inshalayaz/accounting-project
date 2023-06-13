@@ -14,6 +14,7 @@ import CreateAccount from './pages/createAccount/CreateAccount';
 import JournalEntry from './pages/JournalEntry/JournalEntry';
 import TrialBalance from './pages/TrialBalance/TrialBalance';
 import BalanceSheet from './pages/BalanceSheet/BalanceSheet';
+import OwnerEquity from './pages/OwnerEquity/OwnerEquity';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
               <Route path='/journal-entries' element={<JournalEntry />} />
               <Route path='/trial-balance' element={<TrialBalance />} />
               <Route path='/balance-sheet' element={<BalanceSheet />} />
+              <Route path='/owner-equity' element={<OwnerEquity />} />
               <Route path='/' element={<Dashboard />} />
             </Routes>
 

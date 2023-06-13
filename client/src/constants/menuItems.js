@@ -29,6 +29,12 @@ const menuItems = [
         route: "balance-sheet",
     },
 
+    {
+        id: 5,
+        name: "Owner Equity",
+        route: "owner-equity",
+    },
+
 
 ]
 
