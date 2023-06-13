@@ -24,7 +24,13 @@ const JournalEntry = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const createEntry = () => {
+    const getEntries = async () => {
+        const response = await axios.get(`${BASE_URL}/${GET_JOURNAL_ENTRY}`);
+        const data = response.data;
+        setJournalEntries(data)
+    }
+
+    const createEntry = async () => {
         const entry = {
             debit: [],
             credit: []
@@ -49,15 +55,16 @@ const JournalEntry = () => {
         entry.debit.push(debitEntryObj)
         entry.credit.push(creditEntryObj)
 
-        axios.post(`${BASE_URL}/${JOURNAL_ENTRY}`, entry, HEADERS)
+        await axios.post(`${BASE_URL}/${JOURNAL_ENTRY}`, entry, HEADERS)
+
+        getEntries()
+
+        handleClose()
     }
 
     useEffect(() => {
-        (async () => {
-            const response = await axios.get(`${BASE_URL}/${GET_JOURNAL_ENTRY}`);
-            const data = response.data;
-            setJournalEntries(data)
-        })();
+
+        getEntries();
 
         (async () => {
             const response = await axios.get(`${BASE_URL}/${GET_ACCOUNTS}`)
@@ -70,10 +77,10 @@ const JournalEntry = () => {
     return (
         <Grid container sx={{ mt: 2 }}>
             <Grid xs={12} minHeight={500} maxHeight={500}>
+                <Button fullWidth sx={{ mb: 3 }} variant="contained" onClick={handleOpen}>Create Journal Entry</Button>
                 <EntryTable data={journalEntries} />
             </Grid>
             <Grid xs={12}>
-                <Button fullWidth sx={{ mt: 3 }} variant="contained" onClick={handleOpen}>Create Journal Entry</Button>
                 <Modal
                     aria-labelledby="transition-modal-title"
                     aria-describedby="transition-modal-description"
