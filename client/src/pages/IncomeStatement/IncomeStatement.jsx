@@ -33,7 +33,7 @@ const IncomeStatement = () => {
           <Typography variant='body2' color='red'><b>Expenses: {incomeStatement?.expenses}</b></Typography>
         </Grid>
         <Grid xs={3} sx={{mt: 3, mb: 3}}>
-          <Typography variant='body2' color={incomeStatement?.netIncome > 0 ? 'green' : 'red'} ><b>Net Income: {incomeStatement?.netIncome}</b></Typography>
+          <Typography variant='body2' color={incomeStatement?.netIncome > 0 ? 'green' : 'red'} ><b>Net Income: {incomeStatement?.netIncome > 0 ? incomeStatement?.netIncome :   `(${incomeStatement?.netIncome})`}</b></Typography>
         </Grid>
       </Grid>
     )
