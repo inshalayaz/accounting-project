@@ -1,14 +1,37 @@
-import { JournalEntryModel, PastJournalEntryModel } from "../models/models.mjs";
+import { AccountModel, JournalEntryModel, PastJournalEntryModel } from "../models/models.mjs";
 
 export const closeJournalEntries = async (req, res) => {
   try {
     // Retrieve all journal entries from JournalEntryModel
-    const journalEntries = await JournalEntryModel.findAll();
-
+    const journalEntries = await JournalEntryModel.findAll({
+      include: {
+        model: AccountModel,
+        required: false,
+      },
+    });
     if (journalEntries.length === 0) {
       // No journal entries found
       res.status(404).json({ message: 'No journal entries found' });
       return;
+    }
+
+    let closing_account_id_set = new Set();
+    for (const entry of journalEntries) {
+      const { Account } = entry;
+      const { account_id, account_type } = Account;
+
+
+      if (account_type === 'revenue' || account_type === 'expense' || account_type === 'owner_drawings') {
+        closing_account_id_set.add(account_id);
+      }
+
+    }
+
+    for (const account_id of closing_account_id_set) {
+      await AccountModel.update(
+        { account_status: false },
+        { where: { account_id: account_id } }
+      );
     }
 
     // Prepare the journal entry records for insertion into PastJournalEntryModel

@@ -49,7 +49,7 @@ export const getAllJournalEntries = async (req, res) => {
         model: AccountModel,
         where: {
           account_type: {
-            [Op.notIn]: ["expense", "revenue"],
+            [Op.notIn]: ["expense", "revenue", "owner_drawings"],
           },
         },
       },

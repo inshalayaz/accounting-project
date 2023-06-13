@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+import { Sequelize, where } from "sequelize";
 import { AccountModel, JournalEntryModel, PastJournalEntryModel } from "../models/models.mjs"
 
 export const createAccount = async (req, res) => {
@@ -16,7 +16,13 @@ export const createAccount = async (req, res) => {
 
 export const getAccounts = async (req, res) => {
     try {
-        const accounts = await AccountModel.findAll()
+        const accounts = await AccountModel.findAll({
+            where: {
+                account_status: {
+                    [Sequelize.Op.notIn]: [false],
+                }
+            }
+        })
         accounts.sort((prevAccount, nextAccount) => {
             if (prevAccount.account_type < nextAccount.account_type)
                   return -1;
