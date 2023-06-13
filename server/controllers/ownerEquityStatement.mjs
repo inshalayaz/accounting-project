@@ -13,6 +13,7 @@ export const calculateOwnerEquityStatement = async () => {
     // Initialize variables to store the net income and owner's equity total
     let netIncome = 0;
     let ownerEquity = 0;
+    let ownerWithdrawals = 0;
     let ownerTransactions = {
       withdrawals: [],
       deposits: []
@@ -49,7 +50,7 @@ export const calculateOwnerEquityStatement = async () => {
           // Owner's capital or owner's drawings account
           if (transaction_type === 'debit') {
             ownerTransactions.withdrawals.push(Account)
-            ownerEquity -= +amount;
+            ownerWithdrawals += +amount;
           } else if (transaction_type === 'credit') {
             ownerTransactions.deposits.push(Account)
             ownerEquity += +amount;
@@ -60,13 +61,14 @@ export const calculateOwnerEquityStatement = async () => {
 
     // Add net income to the owner's equity
     // ownerEquity += netIncome;
-    let newOwnerEquity = ownerEquity + netIncome
+    let newOwnerEquity = (ownerEquity + netIncome) - ownerWithdrawals;
 
     // Prepare and return the owner's equity statement data
     const ownerEquityStatement = {
       ownerTransactions,
-      netIncome,
       ownerEquity,
+      netIncome,
+      ownerWithdrawals,
       newOwnerEquity
     };
 

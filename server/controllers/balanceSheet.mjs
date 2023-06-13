@@ -21,6 +21,8 @@ const calculateBalanceSheet = async () => {
             equity: []
         }
 
+        let account_balance = {};
+
         // Calculate the asset, liability, and equity totals by iterating through the journal entries
         for (const entry of journalEntries) {
             let { Account, amount, transaction_type, entry_type} = entry;
@@ -29,34 +31,68 @@ const calculateBalanceSheet = async () => {
             transaction_type = transaction_type.toLowerCase();
 
             if (Account && entry_type !== 'closing') {
-                let { account_type } = Account;
+                let { account_type, account_id } = Account;
 
                 account_type = account_type.toLowerCase();
 
                 if (account_type === 'asset') {
-                    transactions.assets.push(Account)
+                    // transactions.assets.push(Account)
                     // Asset account
                     if (transaction_type === 'debit') {
+                        account_balance[account_id] = (account_balance[account_id] || 0) + +amount;
                         totalAssets += +amount;
                     } else if (transaction_type === 'credit') {
+                        account_balance[account_id] = (account_balance[account_id] || 0) - +amount;
                         totalAssets -= +amount;
                     }
                 } else if (account_type === 'liability') {
-                    transactions.liabilities.push(Account)
+                    // transactions.liabilities.push(Account)
                     // Liability account
                     if (transaction_type === 'credit') {
+                        account_balance[account_id] = (account_balance[account_id] || 0) + +amount;
                         totalLiabilities += +amount;
                     } else if (transaction_type === 'debit') {
+                        account_balance[account_id] = (account_balance[account_id] || 0) - +amount;
                         totalLiabilities -= +amount;
                     }
                 } 
                 
             }
         }
+
+        await Promise.all(
+            Object.entries(account_balance).map(async ([accountId, totalAmount]) => {
+              const account = await AccountModel.findByPk(accountId);
+              
+              const account_id = accountId;
+              const account_name = account ? account.account_name : 'Unknown';
+              const account_type = account.account_type.toLowerCase();
+              const amount = totalAmount;
+      
+              if (account_type == 'asset') {
+                transactions['assets'].push({ account_id, account_name, account_type, amount});
+              }
+              else if (account_type == 'liability') {
+                transactions['liabilities'].push({ account_id, account_name, account_type, amount});
+              }
+              
+              // let isDebit = false;
+      
+              // if(account_type === 'asset' || account_type === 'expense' || account_type === 'owner_drawings'){
+              //     // transactions.debit += +balance
+              //     isDebit = true
+              //   }
+              //   else {
+              //     balance = balance * -1
+              //     // transactions.credit += +balance
+              // }
+      
+              // return { account_id: accountId, account_name, balance, account_type, is_debit: isDebit};
+            })
+          );
+
         const ownerEquityStatement = await calculateOwnerEquityStatement();
         totalEquity = ownerEquityStatement.newOwnerEquity
-
-        console.log(+totalEquity)
 
         const isBalanced = totalAssets === +totalLiabilities + +totalEquity ? true : false
 

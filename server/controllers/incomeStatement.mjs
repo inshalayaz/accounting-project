@@ -20,25 +20,61 @@ export const generateIncomeStatement = async (req, res) => {
       expense: []
     }
 
+    let account_balance = {};
+
     // Calculate the revenue and expense totals by iterating through the journal entries
     for (const entry of journalEntries) {
       const { Account, amount, entry_type } = entry;
 
       if (Account && entry_type !== 'closing') {
-        const { account_type } = Account;
+        const { account_type, account_id } = Account;
         Account.dataValues.amount = amount
 
         if (account_type === 'revenue') {
-          entities.revenue.push(Account)
+          account_balance[account_id] = (account_balance[account_id] || 0) + +amount;
+          // entities.revenue.push(Account)
           // Revenue account
           totalRevenue += +amount;
         } else if (account_type === 'expense') {
-          entities.expense.push(Account)
+          account_balance[account_id] = (account_balance[account_id] || 0) + +amount;
+          // entities.expense.push(Account)
           // Expense account
           totalExpenses += +amount;
         }
       }
     }
+
+
+    await Promise.all(
+      Object.entries(account_balance).map(async ([accountId, balance]) => {
+        const account = await AccountModel.findByPk(accountId);
+        
+        const account_id = accountId;
+        const account_name = account ? account.account_name : 'Unknown';
+        const account_type = account.account_type.toLowerCase();
+        const amount = balance;
+
+        if (account_type == 'revenue') {
+          entities['revenue'].push({ account_id, account_name, account_type, amount});
+        }
+        else {
+          entities['expense'].push({ account_id, account_name, account_type, amount});
+        }
+        
+        // let isDebit = false;
+
+        // if(account_type === 'asset' || account_type === 'expense' || account_type === 'owner_drawings'){
+        //     // transactions.debit += +balance
+        //     isDebit = true
+        //   }
+        //   else {
+        //     balance = balance * -1
+        //     // transactions.credit += +balance
+        // }
+
+        // return { account_id: accountId, account_name, balance, account_type, is_debit: isDebit};
+      })
+    );
 
     // Calculate the net income by subtracting the total expenses from the total revenue
     netIncome = totalRevenue - totalExpenses;
