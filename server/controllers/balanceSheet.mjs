@@ -49,7 +49,9 @@ const calculateBalanceSheet = async () => {
                     } else if (transaction_type === 'debit') {
                         totalLiabilities -= +amount;
                     }
-                } 
+                } else if(account_type === 'owner_capital'){
+                    transactions.equity.push(Account)
+                }
                 
             }
         }

@@ -13,6 +13,7 @@ import ViewAccounts from './pages/ViewAccount/ViewAccounts';
 import CreateAccount from './pages/createAccount/CreateAccount';
 import JournalEntry from './pages/JournalEntry/JournalEntry';
 import TrialBalance from './pages/TrialBalance/TrialBalance';
+import BalanceSheet from './pages/BalanceSheet/BalanceSheet';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
               <Route path='/create-account' element={<CreateAccount />} />
               <Route path='/journal-entries' element={<JournalEntry />} />
               <Route path='/trial-balance' element={<TrialBalance />} />
+              <Route path='/balance-sheet' element={<BalanceSheet />} />
               <Route path='/' element={<Dashboard />} />
             </Routes>
 

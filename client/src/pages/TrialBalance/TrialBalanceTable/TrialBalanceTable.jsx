@@ -64,8 +64,8 @@ const TrialBalanceTable = ({ trialBalanceData }) => {
                         </TableRow>
                     ))}
                     <TableRow>
-                        <TableCell align="center" colSpan={2}><b>Debit: {trialBalanceData.transactions.debit}</b></TableCell>
-                        <TableCell align="center" colSpan={2}><b>Credit: {trialBalanceData.transactions.credit}</b></TableCell>
+                        <TableCell align="center" colSpan={2}><b>Debit: {trialBalanceData?.transactions.debit}</b></TableCell>
+                        <TableCell align="center" colSpan={2}><b>Credit: {trialBalanceData?.transactions.credit}</b></TableCell>
                     </TableRow>
                 </TableBody>
             </Table>

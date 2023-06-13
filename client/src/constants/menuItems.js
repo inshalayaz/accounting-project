@@ -23,6 +23,12 @@ const menuItems = [
         route: "trial-balance",
     },
 
+    {
+        id: 4,
+        name: "Balance Sheet",
+        route: "balance-sheet",
+    },
+
 
 ]
 
