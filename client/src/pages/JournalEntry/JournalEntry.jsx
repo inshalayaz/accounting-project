@@ -8,6 +8,8 @@ import { Modal } from '@mui/base';
 
 import { style } from './style';
 import { HEADERS } from '../../constants/headers';
+import { ToastContainer } from 'react-toastify';
+import { showSuccessToast } from '../../utils/utils';
 
 const JournalEntry = () => {
 
@@ -32,6 +34,7 @@ const JournalEntry = () => {
 
     const createEntry = async () => {
         const entry = {
+            description,
             debit: [],
             credit: []
         }
@@ -40,7 +43,6 @@ const JournalEntry = () => {
             entry_type: debitEntryType,
             transaction_type: 'Debit',
             amount,
-            description,
             account_id: debitEntry
         }
 
@@ -48,18 +50,25 @@ const JournalEntry = () => {
             entry_type: creditEntryType,
             transaction_type: 'Credit',
             amount,
-            description,
             account_id: creditEntry
         }
 
         entry.debit.push(debitEntryObj)
         entry.credit.push(creditEntryObj)
 
-        await axios.post(`${BASE_URL}/${JOURNAL_ENTRY}`, entry, HEADERS)
+        try {
+            await axios.post(`${BASE_URL}/${JOURNAL_ENTRY}`, entry, HEADERS)
+            
+            getEntries()
+    
+            handleClose()
+    
+            showSuccessToast('Journal Entry Created')
+        } catch (error) {
+            alert(error.message)
+        }
 
-        getEntries()
 
-        handleClose()
     }
 
     useEffect(() => {
@@ -75,9 +84,11 @@ const JournalEntry = () => {
 
 
     return (
-        <Grid container sx={{ mt: 2 }}>
-            <Grid xs={12} minHeight={500} maxHeight={500}>
-                <Button fullWidth sx={{ mb: 3 }} variant="contained" onClick={handleOpen}>Create Journal Entry</Button>
+        <Grid container sx={{ mt: 3 }}>
+        <Grid xs={12}>
+            <Typography variant='h5' textAlign='center' marginBottom={4}>Journal Journal</Typography>
+        </Grid>
+            <Grid xs={12} minHeight={500} maxHeight={550} overflow='scroll'>
                 <EntryTable data={journalEntries} />
             </Grid>
             <Grid xs={12}>
@@ -190,7 +201,20 @@ const JournalEntry = () => {
                         </Box>
                     </Fade>
                 </Modal>
+                <Button fullWidth sx={{ mt: 3 }} variant="contained" onClick={handleOpen}>Create Journal Entry</Button>
             </Grid>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </Grid>
     )
 }
