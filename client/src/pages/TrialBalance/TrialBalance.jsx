@@ -14,7 +14,6 @@ const TrialBalance = () => {
         (async () => {
             let response = await axios.get(`${BASE_URL}/${GET_TRIAL_BALANCE}`)
             response = response.data
-            console.log(response.trialBalanceEntries)
             setTrialBalance(response)
         })()
     }, [])

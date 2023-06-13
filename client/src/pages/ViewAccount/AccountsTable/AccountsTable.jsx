@@ -35,7 +35,6 @@ const AccountsTable = ({ data }) => {
 
         let response = await axios.post(`${BASE_URL}/${GET_T_ACCOUNTS}`, { accountId }, HEADERS)
         response = response.data
-        console.log(response[0].Account.account_name)
         setAccountDetails(response)
 
         setOpen(true)

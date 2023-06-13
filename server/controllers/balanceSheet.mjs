@@ -58,7 +58,6 @@ const calculateBalanceSheet = async () => {
         const ownerEquityStatement = await calculateOwnerEquityStatement();
         totalEquity = ownerEquityStatement.newOwnerEquity
 
-        console.log(+totalEquity)
 
         const isBalanced = totalAssets === +totalLiabilities + +totalEquity ? true : false
 

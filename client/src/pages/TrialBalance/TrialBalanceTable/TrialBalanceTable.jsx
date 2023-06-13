@@ -18,7 +18,6 @@ const TrialBalanceTable = ({ trialBalanceData }) => {
     }
 
     const generateRows = () => {
-        console.log(trialBalanceData?.trialBalanceEntries)
         let entries = trialBalanceData?.trialBalanceEntries
         let rows = entries?.map((i) => {
             return (
