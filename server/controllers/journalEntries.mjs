@@ -4,7 +4,7 @@ import { JournalEntryModel, PastJournalEntryModel, AccountModel } from "../model
 export const createJournalEntry = async (req, res) => {
   try {
     const { credit, debit } = req.body;
-    const description = req.body.description;
+
 
     const entryObj = {
       credit,
@@ -16,7 +16,7 @@ export const createJournalEntry = async (req, res) => {
       const transactions = entryObj[key];
 
       for (const transactionType of transactions) {
-        const { transaction_type, account_id, amount, entry_type } = transactionType;
+        const { transaction_type, account_id, amount, entry_type, description } = transactionType;
 
         try {
           await JournalEntryModel.create({

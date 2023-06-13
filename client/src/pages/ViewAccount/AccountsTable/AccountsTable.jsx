@@ -40,11 +40,11 @@ const AccountsTable = ({ data }) => {
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">
-                                {row.name}
+                                {row.name.toUpperCase()}
                             </TableCell>
 
                             <TableCell component="th" scope="row">
-                                {row.type}
+                                {row.type.toUpperCase()}
                             </TableCell>
 
                             <TableCell component="th" scope="row">

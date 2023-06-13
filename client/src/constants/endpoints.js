@@ -1,5 +1,5 @@
 export const BASE_URL = 'http://localhost:3001'
 export const ACCOUNTS = 'accounts'
 export const GET_ACCOUNTS = 'accounts/getAccounts'
-export const JOURNAL_ENTRY = 'journalEntry'
+export const JOURNAL_ENTRY = 'journalEntry/create-entry'
 export const GET_JOURNAL_ENTRY = 'journalEntry/current-entries'
