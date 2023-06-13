@@ -34,7 +34,7 @@ const BalanceSheetTable = ({ data }) => {
 
                                 <TableCell component="th" scope="row">
                                     <Typography color={row.amount > 0 ? 'green' : 'red'}>
-                                        {row.amount > 0 ? row.amount : `(${row.amount})`}
+                                        {row.amount > 0 ? row.amount : `(${row.amount * -1})`}
                                     </Typography>
                                 </TableCell>
                             </TableRow>
@@ -72,7 +72,7 @@ const BalanceSheetTable = ({ data }) => {
 
                                 <TableCell component="th" scope="row">
                                     <Typography color={row.amount > 0 ? 'green' : 'red'}>
-                                        {row.amount > 0 ? row.amount : `(${row.amount})`}
+                                        {row.amount > 0 ? row.amount : `(${row.amount * -1})`}
                                     </Typography>
                                 </TableCell>
                             </TableRow>
@@ -110,7 +110,7 @@ const BalanceSheetTable = ({ data }) => {
 
                                 <TableCell component="th" scope="row">
                                     <Typography color={row.amount > 0 ? 'green' : 'red'}>
-                                        {row.amount > 0 ? row.amount : `(${row.amount})`}
+                                        {row.amount > 0 ? row.amount : `(${row.amount * -1})`}
                                     </Typography>
                                 </TableCell>
                             </TableRow>
