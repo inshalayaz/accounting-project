@@ -148,9 +148,7 @@ ClosedAccountModel.belongsTo(AccountModel, { foreignKey: 'account_id' });
     for (const constraint of foreignKeyConstraints) {
       const { constraintName } = constraint;
       await queryInterface.removeConstraint(tableName, constraintName);
-      console.log(`Foreign key constraint ${constraintName} removed from table ${tableName}`);
     }
   }
 
-  console.log('All foreign key constraints deleted successfully');
 })();

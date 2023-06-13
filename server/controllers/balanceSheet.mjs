@@ -55,7 +55,9 @@ const calculateBalanceSheet = async () => {
                         account_balance[account_id] = (account_balance[account_id] || 0) - +amount;
                         totalLiabilities -= +amount;
                     }
-                } 
+                } else if(account_type === 'owner_capital'){
+                    transactions.equity.push(Account)
+                }
                 
             }
         }
@@ -93,6 +95,7 @@ const calculateBalanceSheet = async () => {
 
         const ownerEquityStatement = await calculateOwnerEquityStatement();
         totalEquity = ownerEquityStatement.newOwnerEquity
+
 
         const isBalanced = totalAssets === +totalLiabilities + +totalEquity ? true : false
 

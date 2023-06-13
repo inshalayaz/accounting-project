@@ -3,8 +3,8 @@ import { JournalEntryModel, PastJournalEntryModel, AccountModel } from "../model
 
 export const createJournalEntry = async (req, res) => {
   try {
-    const { credit, debit } = req.body;
-    const description = req.body.description;
+    const { credit, debit, description } = req.body;
+
 
     const entryObj = {
       credit,

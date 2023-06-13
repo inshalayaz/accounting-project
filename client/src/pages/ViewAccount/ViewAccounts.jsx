@@ -14,7 +14,7 @@ export default function ViewAccounts() {
       const data = response.data; // Extract the data property from the response
       setAccounts(data);
     })();
-    return; // Return statement is not necessary
+    return;
   }, []);
   
 
