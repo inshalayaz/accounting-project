@@ -10,7 +10,8 @@ const EntryTable = ({ data }) => {
     debitAmount,
     creditAccount,
     creditAmount,
-    description
+    description,
+    entryType
   ) {
     return {
       date,
@@ -18,14 +19,15 @@ const EntryTable = ({ data }) => {
       debitAmount,
       creditAccount,
       creditAmount,
-      description
+      description,
+      entryType
     };
   }
 
   const generateRows = () => {
     let rows = data.map((i) => {
         return (
-          createData(i.date, i.debit.Account.account_name, i.debit.amount, i.credit.Account.account_name, i.credit.amount, i.credit.description )
+          createData(i.date, i.debit.Account.account_name, i.debit.amount, i.credit.Account.account_name, i.credit.amount, i.credit.description, i.credit.entry_type )
         )
     })
     return rows
@@ -56,6 +58,7 @@ const EntryTable = ({ data }) => {
             <TableCell>Amount</TableCell>
             <TableCell></TableCell>
 
+            <TableCell align="left">Entry Type</TableCell>
             <TableCell align="left">Description</TableCell>
 
           </TableRow>
@@ -76,6 +79,7 @@ const EntryTable = ({ data }) => {
               <TableCell>{row.creditAccount.toUpperCase()}</TableCell>
               <TableCell>{row.creditAmount}</TableCell>
               <TableCell></TableCell>
+              <TableCell align='left'>{row.entryType}</TableCell>
               <TableCell align='left'>{row.description}</TableCell>
             </TableRow>
           ))}
