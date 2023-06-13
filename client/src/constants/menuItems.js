@@ -35,6 +35,12 @@ const menuItems = [
         route: "owner-equity",
     },
 
+    {
+        id: 6,
+        name: "Income Statement",
+        route: "income-statement",
+    },
+
 
 ]
 
