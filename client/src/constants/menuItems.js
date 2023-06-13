@@ -16,6 +16,13 @@ const menuItems = [
         name: "Journal Entries",
         route: "journal-entries",
     },
+    
+    {
+        id: 3,
+        name: "Trial Balance",
+        route: "trial-balance",
+    },
+
 
 ]
 
