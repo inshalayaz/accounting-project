@@ -28,16 +28,16 @@ const BalanceSheet = () => {
       </Grid>
       
       <Grid xs={3} sx={{mt: 3, mb: 3}}>
-        <Typography variant='body2'><b>Assets: {balanceSheetData.assets}</b></Typography>
+        <Typography variant='body2'><b>Assets: {balanceSheetData?.assets}</b></Typography>
       </Grid>
       <Grid xs={3} sx={{mt: 3, mb: 3}}>
-        <Typography variant='body2'><b>Liabilities: {balanceSheetData.liabilities}</b></Typography>
+        <Typography variant='body2'><b>Liabilities: {balanceSheetData?.liabilities}</b></Typography>
       </Grid>
       <Grid xs={3} sx={{mt: 3, mb: 3}}>
-        <Typography variant='body2'><b>Equity: {balanceSheetData.equity}</b></Typography>
+        <Typography variant='body2'><b>Equity: {balanceSheetData?.equity}</b></Typography>
       </Grid>
       <Grid xs={3} sx={{mt: 3, mb: 3}}>
-        <Typography variant='body2' color={balanceSheetData.isBalanced ? 'green' : 'red'} ><b>{balanceSheetData.isBalanced ? 'Balanced' : 'Not Balanced'}</b></Typography>
+        <Typography variant='body2' color={balanceSheetData?.isBalanced ? 'green' : 'red'} ><b>{balanceSheetData?.isBalanced ? 'Balanced' : 'Not Balanced'}</b></Typography>
       </Grid>
     </Grid>
   )
