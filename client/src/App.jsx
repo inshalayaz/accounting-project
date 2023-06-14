@@ -16,6 +16,7 @@ import TrialBalance from './pages/TrialBalance/TrialBalance';
 import BalanceSheet from './pages/BalanceSheet/BalanceSheet';
 import OwnerEquity from './pages/OwnerEquity/OwnerEquity';
 import IncomeStatement from './pages/IncomeStatement/IncomeStatement';
+import CloseAccounts from './pages/CloseAccounts/CloseAccounts';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
               <Route path='/balance-sheet' element={<BalanceSheet />} />
               <Route path='/owner-equity' element={<OwnerEquity />} />
               <Route path='/income-statement' element={<IncomeStatement />} />
+              <Route path='/close-accounts' element={<CloseAccounts />} />
               <Route path='/' element={<Dashboard />} />
             </Routes>
 

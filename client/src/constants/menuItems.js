@@ -41,6 +41,12 @@ const menuItems = [
         route: "income-statement",
     },
 
+    {
+        id: 7,
+        name: "Close Accounts",
+        route: "close-accounts",
+    },
+
 
 ]
 
