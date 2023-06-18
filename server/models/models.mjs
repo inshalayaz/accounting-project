@@ -25,36 +25,6 @@ export const AccountModel = sequelize.define('Accounts', {
   }
 });
 
-export const ClosedAccountModel = sequelize.define('ClosedAccounts', {
-  closed_account_id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    allowNull: false,
-    defaultValue: DataTypes.UUIDV4
-  },
-  account_id: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: 'Accounts',
-      key: 'account_id',
-    },
-  },
-  account_name: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    unique: true
-  },
-  account_type: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  account_status: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true
-  }
-});
-
 
 
 export const JournalEntryModel = sequelize.define('JournalEntries', {
@@ -136,7 +106,6 @@ export const PastJournalEntryModel = sequelize.define('PastJournalEntries', {
 AccountModel.hasMany(JournalEntryModel, { foreignKey: 'account_id' });
 JournalEntryModel.belongsTo(AccountModel, { foreignKey: 'account_id' });
 PastJournalEntryModel.belongsTo(AccountModel, { foreignKey: 'account_id' });
-ClosedAccountModel.belongsTo(AccountModel, { foreignKey: 'account_id' });
 
 (async () => {
   const queryInterface = sequelize.getQueryInterface();

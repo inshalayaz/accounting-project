@@ -18,18 +18,19 @@ export const closeJournalEntries = async (req, res) => {
     let closing_account_id_set = new Set();
     for (const entry of journalEntries) {
       const { Account } = entry;
-      const { account_id, account_type } = Account;
+      const { account_id, account_type, account_name } = Account;
 
 
       if (account_type === 'revenue' || account_type === 'expense' || account_type === 'owner_drawings') {
-        closing_account_id_set.add(account_id);
+        closing_account_id_set.add({account_id, account_name});
       }
 
     }
 
-    for (const account_id of closing_account_id_set) {
+    for (const {account_id, account_name} of closing_account_id_set) {
+      console.log(account_id, account_name)
       await AccountModel.update(
-        { account_status: false },
+        { account_status: false, account_name: `${account_name}_${account_id}` },
         { where: { account_id: account_id } }
       );
     }

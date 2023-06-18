@@ -57,7 +57,7 @@ const AccountsTable = ({ data }) => {
                             hover
                             key={row.name}
                             onClick={handleOpen(row.accountId)}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 }, cursor: 'pointer' }}
                         >
                             <TableCell component="th" scope="row">
                                 {row.name.toUpperCase()}
@@ -91,7 +91,7 @@ const AccountsTable = ({ data }) => {
             >
                 <Fade in={open}>
                     <Box sx={style}>
-                        <Typography align="center">{accountDetails && accountDetails[0].Account.account_name.toUpperCase()}</Typography>
+                        <Typography align="center">{accountDetails && accountDetails[0]?.Account.account_name.toUpperCase()}</Typography>
                         <TableContainer component={Paper} sx={{ mt: 2 }}>
                             <Table size="small" sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>

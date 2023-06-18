@@ -36,7 +36,7 @@ const EntryTable = ({ data }) => {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minHeight: 500, maxheight: 600, overflowY: 'scroll', overflowX: 'hidden' }} aria-label="simple table">
+      <Table size="small" sx={{ minWidth: 650, maxheight: 600, overflowY: 'scroll', overflowX: 'hidden' }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell></TableCell>
