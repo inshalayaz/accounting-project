@@ -11,6 +11,7 @@ const CloseAccounts = () => {
     const closeAccounts = async () => {
         try {
             await axios.post(`${BASE_URL}/${CLOSE_GENERAL_ENTRIES}`, {}, HEADERS)
+
             showSuccessToast('Accounts Successsfully closed')
         } catch (error) {
             alert('error closing accounts')
@@ -19,7 +20,7 @@ const CloseAccounts = () => {
 
     return (
         <Grid container>
-            <Grid xs={12} sx={{ position: 'relative', top: '300px' }}>
+            <Grid item xs={12} sx={{ position: 'relative', top: '300px' }}>
                 <Button fullWidth sx={{ mt: 3 }} variant="contained" onClick={closeAccounts} >Close Account</Button>
             </Grid>
 

@@ -29,7 +29,7 @@ export default function CreateAccount() {
       showSuccessToast(response.data.message)
       
     } catch (error) {
-      alert('failed creating account')
+      alert(error.response.data.message)
     }
 
   }
