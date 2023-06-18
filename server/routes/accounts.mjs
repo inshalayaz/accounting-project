@@ -1,11 +1,12 @@
 import express from 'express'
 
-import { createAccount, getAccounts, getTAccounts } from '../controllers/accounts.mjs'
+import { createAccount, getAccounts, getActiveAccounts } from '../controllers/accounts.mjs'
 
 const router = express.Router()
 
-router.post('/', createAccount)
+router.post('/createAccount', createAccount)
+
 router.get('/getAccounts', getAccounts)
-router.post('/getTAcounts', getTAccounts)
+router.get('/getActiveAccounts', getActiveAccounts)
 
 export default router

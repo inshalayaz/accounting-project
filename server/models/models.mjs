@@ -3,140 +3,114 @@ import sequelize from '../config/config.mjs';
 
 const { DataTypes } = Sequelize;
 
+export const TransactionModel = sequelize.define('Transactions', {
+  transaction_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  transaction_date: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+});
+
+// JournalEntry model
+export const JournalEntryModel = sequelize.define('JournalEntries', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  transaction_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  account_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  transaction_type: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  amount: {
+    type: DataTypes.DECIMAL,
+    allowNull: false
+  },
+  entry_type: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+});
+
+// PastJournalEntry model
+export const PastJournalEntryModel = sequelize.define('PastJournalEntries', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  transaction_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  account_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  transaction_type: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  amount: {
+    type: DataTypes.DECIMAL,
+    allowNull: false
+  },
+  entry_type: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+});
+
+// Account model
 export const AccountModel = sequelize.define('Accounts', {
   account_id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
-    defaultValue: DataTypes.UUIDV4
-  },
-  account_name: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    unique: true
+    autoIncrement: true
   },
   account_type: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
+    type: DataTypes.STRING,
+    allowNull: false
   },
   account_status: {
     type: DataTypes.BOOLEAN,
-    defaultValue: true
-  }
-});
-
-export const ClosedAccountModel = sequelize.define('ClosedAccounts', {
-  closed_account_id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    allowNull: false,
-    defaultValue: DataTypes.UUIDV4
-  },
-  account_id: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: 'Accounts',
-      key: 'account_id',
-    },
+    allowNull: false
   },
   account_name: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    unique: true
-  },
-  account_type: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  account_status: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true
+    type: DataTypes.STRING,
+    allowNull: false
   }
 });
 
+// Define relationships
+TransactionModel.hasMany(JournalEntryModel, { foreignKey: 'transaction_id' });
+JournalEntryModel.belongsTo(TransactionModel, { foreignKey: 'transaction_id' });
 
-
-export const JournalEntryModel = sequelize.define('JournalEntries', {
-  entry_id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    allowNull: false,
-    defaultValue: DataTypes.UUIDV4
-  },
-  transaction_date: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  transaction_type: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  account_id: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: 'Accounts',
-      key: 'account_id',
-    },
-  },
-  amount: {
-    type: DataTypes.DECIMAL(10, 2),
-    allowNull: false,
-  },
-  entry_type: {
-    type: DataTypes.STRING(10),
-    allowNull: false,
-  },
-});
-
-
-export const PastJournalEntryModel = sequelize.define('PastJournalEntries', {
-  entry_id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    allowNull: false,
-    defaultValue: DataTypes.UUIDV4
-  },
-  transaction_date: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  transaction_type: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  account_id: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: 'Accounts',
-      key: 'account_id',
-    },
-  },
-  amount: {
-    type: DataTypes.DECIMAL(10, 2),
-    allowNull: false,
-  },
-  entry_type: {
-    type: DataTypes.STRING(10),
-    allowNull: false,
-  },
-});
-// Define the relationship between Account and JournalEntry
+TransactionModel.hasMany(PastJournalEntryModel, { foreignKey: 'transaction_id' });
+PastJournalEntryModel.belongsTo(TransactionModel, { foreignKey: 'transaction_id' });
 
 AccountModel.hasMany(JournalEntryModel, { foreignKey: 'account_id' });
 JournalEntryModel.belongsTo(AccountModel, { foreignKey: 'account_id' });
+
+AccountModel.hasMany(PastJournalEntryModel, { foreignKey: 'account_id' });
 PastJournalEntryModel.belongsTo(AccountModel, { foreignKey: 'account_id' });
-ClosedAccountModel.belongsTo(AccountModel, { foreignKey: 'account_id' });
+
 
 (async () => {
   const queryInterface = sequelize.getQueryInterface();

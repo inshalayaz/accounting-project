@@ -1,9 +1,12 @@
 import express from 'express'
-import { createJournalEntry, getAllJournalEntries, getCurrentJournalEntries } from '../controllers/journalEntries.mjs'
+import { createJournalTransaction, getAllJournalEntries, getCurrentJournalEntries, getAllEntriesByAccount } from '../controllers/journalEntries.mjs'
 const router = express.Router()
 
 router.get('/all-entries', getAllJournalEntries)
 router.get('/current-entries', getCurrentJournalEntries)
-router.post('/create-entry', createJournalEntry)
+router.post('/get-all-entries-by-account', getAllEntriesByAccount)
+
+router.post('/create-transaction', createJournalTransaction)
+
 
 export default router
