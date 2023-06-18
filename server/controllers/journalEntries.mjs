@@ -15,7 +15,7 @@ export const createJournalTransaction = async (req, res) => {
     const creditEntry = await JournalEntryModel.create({
       transaction_id: transaction.transaction_id,
       account_id: credit.account_id,
-      transaction_type: "Credit",
+      transaction_type: "credit",
       amount,
       entry_type: credit.entry_type
     });
@@ -23,7 +23,7 @@ export const createJournalTransaction = async (req, res) => {
     const debitEntry = await JournalEntryModel.create({
       transaction_id: transaction.transaction_id,
       account_id: debit.account_id,
-      transaction_type: "Debit",
+      transaction_type: "debit",
       amount,
       entry_type: debit.entry_type
     });
@@ -169,7 +169,6 @@ export const getAllEntriesByAccount = async (req, res) => {
       include: [
         {
           model: AccountModel,
-          attributes: ['account_id', 'account_name']
         }
       ]
     });
