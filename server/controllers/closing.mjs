@@ -28,7 +28,6 @@ export const closeJournalEntries = async (req, res) => {
     }
 
     for (const {account_id, account_name} of closing_account_id_set) {
-      console.log(account_id, account_name)
       await AccountModel.update(
         { account_status: false, account_name: `${account_name}_${account_id}` },
         { where: { account_id: account_id } }
