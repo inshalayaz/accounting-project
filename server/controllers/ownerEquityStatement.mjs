@@ -1,7 +1,24 @@
-import { JournalEntryModel, AccountModel } from "../models/models.mjs";
+import { JournalEntryModel, AccountModel, PastJournalEntryModel } from "../models/models.mjs";
 
 export const calculateOwnerEquityStatement = async () => {
   try {
+
+    const ownerEquityAccount = await AccountModel.findOne({
+      where: {
+        account_type: 'owner_capital'
+      }
+    });
+
+    const pastOwnerEquityEntries = await PastJournalEntryModel.findAll({
+      include: {
+        model: AccountModel,
+        required: false, // Perform a left join
+      },
+      where: {
+        account_id: ownerEquityAccount.account_id
+      }
+    });
+
     // Retrieve all journal entries from the database, including associated account information
     const journalEntries = await JournalEntryModel.findAll({
       include: {
@@ -9,6 +26,9 @@ export const calculateOwnerEquityStatement = async () => {
         required: false, // Perform a left join
       },
     });
+
+
+    const allEntries = [...journalEntries, ...pastOwnerEquityEntries];
 
     // Initialize variables to store the net income and owner's equity total
     let netIncome = 0;
@@ -20,43 +40,55 @@ export const calculateOwnerEquityStatement = async () => {
     }
 
     // Calculate the net income and owner's equity by iterating through the journal entries
-    for (const entry of journalEntries) {
+    for (const entry of allEntries) {
       let { Account, amount, transaction_type, entry_type } = entry;
 
-        transaction_type = transaction_type.toLowerCase()
+      transaction_type = transaction_type.toLowerCase()
 
-      if (Account && entry_type !== 'closing') {
-        let { account_type } = Account;
 
-        Account.dataValues.amount = amount
+      let { account_type } = Account;
 
-        account_type = account_type.toLowerCase()
+      Account.dataValues.amount = amount
 
-        if (account_type === 'revenue') {
-          // Revenue account
-          if (transaction_type === 'credit') {
-            netIncome += +amount;
-          } else if (transaction_type === 'debit') {
-            netIncome -= +amount;
-          }
-        } else if (account_type === 'expense') {
-          // Expense account
-          if (transaction_type === 'debit') {
-            netIncome -= +amount;
-          } else if (transaction_type === 'credit') {
-            netIncome += +amount;
-          }
-        } else if (account_type === 'owner_capital' || account_type === 'owner_drawings') {
-          // Owner's capital or owner's drawings account
-          if (transaction_type === 'debit') {
-            ownerTransactions.withdrawals.push(Account)
-            ownerWithdrawals += +amount;
-          } else if (transaction_type === 'credit') {
-            ownerTransactions.deposits.push(Account)
-            ownerEquity += +amount;
-          }
+      account_type = account_type.toLowerCase()
+
+      if (account_type === 'revenue') {
+        // Revenue account
+        if (transaction_type === 'credit') {
+          netIncome += +amount;
+        } else if (transaction_type === 'debit') {
+          netIncome -= +amount;
         }
+      } else if (account_type === 'expense') {
+        // Expense account
+        if (transaction_type === 'debit') {
+          netIncome -= +amount;
+        } else if (transaction_type === 'credit') {
+          netIncome += +amount;
+        }
+      } // else if (account_type === 'owner_capital' || account_type === 'owner_drawings') {
+      //   // Owner's capital or owner's drawings account
+      //   if (transaction_type === 'debit') {
+      //     ownerTransactions.withdrawals.push(Account)
+      //     ownerWithdrawals += +amount;
+      //   } else if (transaction_type === 'credit') {
+      //     ownerTransactions.deposits.push(Account)
+      //     ownerEquity += +amount;
+      //   }
+      // }
+      else if (account_type === 'owner_capital' && transaction_type === 'debit') {
+        ownerTransactions.deposits.push(Account)
+        ownerEquity -= +amount;
       }
+      else if (account_type === 'owner_capital' && transaction_type === 'credit') {
+        ownerTransactions.deposits.push(Account)
+        ownerEquity += +amount;
+      }
+      else if (account_type === 'owner_drawings') {
+        ownerTransactions.withdrawals.push(Account)
+        ownerWithdrawals += +amount;
+      }
+
     }
 
     // Add net income to the owner's equity

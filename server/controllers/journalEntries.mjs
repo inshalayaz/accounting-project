@@ -174,7 +174,7 @@ export const getAllEntriesByAccount = async (req, res) => {
     });
 
     // Combine the journal entries from both tables
-    const journalEntries = [...currentJournalEntries, ...pastJournalEntries];
+    const journalEntries = [...pastJournalEntries, ...currentJournalEntries, ];
 
     res.json(journalEntries);
   } catch (error) {
